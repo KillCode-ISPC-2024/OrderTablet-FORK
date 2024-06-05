@@ -1,77 +1,58 @@
 package com.example.food_app.menu;
 
+import android.os.Bundle;
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import com.example.food_app.ListElement;
 import com.example.food_app.R;
-import com.example.food_app.ToConfirmOrderActivity;
 import com.example.food_app.adapter.VPAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.List;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MenuScroll extends AppCompatActivity {
-    List<ListElement> elements;
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
-    VPAdapter vpAdapter;
-    FloatingActionButton btnOrder;
+
+    private static final String TAG = "MenuScroll";
+    private ViewPager2 viewPager2;
+    private VPAdapter vpAdapter;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_scroll);
 
-        tabLayout = findViewById(R.id.tabLayout);
+        // Inicializar ViewPager2 y TabLayout
         viewPager2 = findViewById(R.id.viewpager);
-        btnOrder = findViewById(R.id.btnOrder);
+        tabLayout = findViewById(R.id.tabLayout);
 
+        // Inicializar VPAdapter
         vpAdapter = new VPAdapter(this);
+
+        // Configurar ViewPager2 con el adaptador
         viewPager2.setAdapter(vpAdapter);
 
-
-        btnOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent btnOrder= new Intent( MenuScroll.this, ToConfirmOrderActivity.class);
-                startActivity(btnOrder);
+        // Configurar TabLayoutMediator para establecer los títulos de las pestañas
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Entradas");
+                    break;
+                case 1:
+                    tab.setText("Principal");
+                    break;
+                case 2:
+                    tab.setText("Postres");
+                    break;
+                case 3:
+                    tab.setText("Bebidas");
+                    break;
+                default:
+                    tab.setText("Tab " + (position + 1));
+                    break;
             }
-        });
+        }).attach();
 
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager2.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                tabLayout.getTabAt(position).select();
-            }
-
-        });
+        Log.d(TAG, "MenuScroll created and ViewPager2 set up with TabLayout");
     }
-
-
-
-
 }

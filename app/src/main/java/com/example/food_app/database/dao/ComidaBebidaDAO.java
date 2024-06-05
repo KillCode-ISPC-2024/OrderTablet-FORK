@@ -31,8 +31,8 @@ public interface ComidaBebidaDAO {
     @Query("SELECT * FROM comidaBebida WHERE  descripcion= :descripID")
     comidaBebida getDescripcion(int descripID);
 
-    @Query("SELECT * FROM comidaBebida WHERE  id_categoria = :categotiaID")
-    List<comidaBebida> getId_categoria(int categotiaID);
+    @Query("SELECT * FROM comidaBebida WHERE  id_categoria = :categoriaID")
+    List<comidaBebida> getId_categoria(int categoriaID);
 
 
     @Insert

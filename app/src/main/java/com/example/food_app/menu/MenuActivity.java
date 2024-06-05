@@ -82,7 +82,7 @@ public class MenuActivity extends AppCompatActivity {
                     Log.d("Categoría Insertada", "ID: " + categoria.getId_categoria() + ", Nombre: " + categoria.getNombre());
                 }
                 for (comidaBebida comida : comidaBebidaEntityList) {
-                    Log.d("Comida Insertada", "ID: " + comida.getNombre() + ", Nombre: " + comida.getTipo());
+                    Log.d("Comida Insertada", "ID: " + comida.getId_comidaBebida() + ", Nombre: " + comida.getNombre());
                 }
             }
         });

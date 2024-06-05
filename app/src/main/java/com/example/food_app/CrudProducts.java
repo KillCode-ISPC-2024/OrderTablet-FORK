@@ -1,6 +1,7 @@
 package com.example.food_app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.food_app.adapter.AdapterSingleton;
+import com.example.food_app.adapter.ListAdapter;
 import com.example.food_app.database.AppDataBase;
 import com.example.food_app.database.entity.categoriaEntity;
 import com.example.food_app.database.entity.comidaBebida;
@@ -35,6 +38,8 @@ public class CrudProducts extends AppCompatActivity {
     private List<Integer> categoriaIds;
     private Map<String, Integer> categoriaMap;
 
+    private ListAdapter listAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +57,14 @@ public class CrudProducts extends AppCompatActivity {
 
         // Inicializar la base de datos
         appDataBase = AppDataBase.getInstance(getApplicationContext());
+
+        // Inicializar listAdapter
+        List<comidaBebida> comidaBebidaList = appDataBase.comidaBebidaDAO().getId_comidaBebida();
+        listAdapter = new ListAdapter(comidaBebidaList, this);
+        Log.d("CrudProducts", "Lista de productos correctamente agregada a list adapter");
+
+        // Inicializar el singleton
+        AdapterSingleton.init(listAdapter);
 
         // Configurar el Spinner de categorías con las categorías existentes
         configurarSpinnerCategorias();
@@ -208,6 +221,16 @@ public class CrudProducts extends AppCompatActivity {
         // Insertar el nuevo producto en la base de datos
         appDataBase.comidaBebidaDAO().insertComidaBebida(nuevoProducto);
 
+        // Después de insertar el nuevo producto en la base de datos
+        // Obtener la lista actualizada de productos
+        List<comidaBebida> nuevaListaProductos = appDataBase.comidaBebidaDAO().getId_comidaBebida();
+        Log.d("CrudProducts", "Lista de productos actualizada: " + nuevaListaProductos.size() + " productos");
+
+        // Actualizar el adaptador con la nueva lista de productos
+        listAdapter.updateData(nuevaListaProductos);
+        Log.d("CrudProducts", "Producto guardado");
+        Log.d("CrudProducts", "Adaptador actualizado con la nueva lista de productos");
+
         // Limpia los campos después de guardar
         nombreEditText.setText("");
         tipoSpinner.setSelection(0);
@@ -234,6 +257,14 @@ public class CrudProducts extends AppCompatActivity {
             if (productoSeleccionado != null) {
                 // Eliminar el producto de la base de datos
                 appDataBase.comidaBebidaDAO().deleteComidaBebida(productoSeleccionado);
+
+                // Obtener la lista actualizada de productos
+                List<comidaBebida> nuevaListaProductos = appDataBase.comidaBebidaDAO().getId_comidaBebida();
+
+                // Actualizar la lista de productos en el adaptador
+                listAdapter.updateData(nuevaListaProductos);
+                Log.d("CrudProducts", "Producto eliminado");
+                Log.d("CrudProducts", "Adaptador actualizado con la nueva lista de productos");
 
                 // Actualizar el Spinner de productos
                 configurarSpinnerProductos();
@@ -272,6 +303,14 @@ public class CrudProducts extends AppCompatActivity {
 
                 // Actualizar el producto en la base de datos
                 appDataBase.comidaBebidaDAO().updateComidaBebida(productoSeleccionado);
+
+                // Obtener la lista actualizada de productos
+                List<comidaBebida> nuevaListaProductos = appDataBase.comidaBebidaDAO().getId_comidaBebida();
+
+                // Actualizar la lista de productos en el adaptador
+                listAdapter.updateData(nuevaListaProductos);
+                Log.d("CrudProducts", "Producto actualizado");
+                Log.d("CrudProducts", "Adaptador actualizado con la nueva lista de productos");
 
                 // Notificar que el producto ha sido actualizado
                 Toast.makeText(CrudProducts.this, "Producto actualizado", Toast.LENGTH_SHORT).show();

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
+    tools:context=".menu.MenuScroll"
     android:background="@drawable/bkgd_entrada">
 
     <com.google.android.material.tabs.TabLayout
@@ -20,27 +20,9 @@
         app:tabTextAppearance="@style/TabTextAppearance"
         app:tabTextColor="#000000">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Entradas" />
+        <!-- Las pestañas se agregarán dinámicamente con TabLayoutMediator -->
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Principal" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Postres" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bebidas" />
     </com.google.android.material.tabs.TabLayout>
-
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
@@ -50,7 +32,6 @@
         app:layout_constraintBottom_toTopOf="@+id/btnOrder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnOrder"
@@ -63,7 +44,4 @@
         app:maxImageSize="80dp"
         app:fabCustomSize="120dp"
         app:backgroundTint="@color/cardview_dark_background"/>
-
-
 </FrameLayout>
-

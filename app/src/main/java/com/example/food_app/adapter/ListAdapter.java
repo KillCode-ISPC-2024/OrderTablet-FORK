@@ -1,6 +1,7 @@
 package com.example.food_app.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d("ListAdapter", "onCreateViewHolder: Inflating menu_list view");
         View view = mInflater.inflate(R.layout.menu_list, parent, false);
         return new ViewHolder(view);
     }
@@ -53,14 +55,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         notifyDataSetChanged(); // Notifica al RecyclerView para que se actualice
     }
 
+    public List<comidaBebida> getData() {
+        return mData;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView addBtn, subsBtn;
+        ImageView btnAdd, btnSubs;
         TextView nombre, tipo, precio, descripcion;
 
         ViewHolder(View itemView) {
             super(itemView);
-            addBtn = itemView.findViewById(R.id.btnAdd);
-            subsBtn = itemView.findViewById(R.id.btnSubs);
+            btnAdd = itemView.findViewById(R.id.btnAdd);
+            btnSubs = itemView.findViewById(R.id.btnSubs);
             nombre = itemView.findViewById(R.id.nombre);
             tipo = itemView.findViewById(R.id.tipo);
             precio = itemView.findViewById(R.id.precio);
@@ -72,6 +78,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             tipo.setText(comida.getTipo());
             precio.setText(comida.getPrecio().toString());
             descripcion.setText(comida.getDescripcion());
+            // Agregar un Log para verificar los datos del objeto comidaBebida
+            Log.d("ListAdapter", "Datos de comidaBebida: " + comida.getNombre() + ", " + comida.getTipo() + ", " + comida.getPrecio() + ", " + comida.getDescripcion());
         }
     }
 }
